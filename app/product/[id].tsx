@@ -1,10 +1,10 @@
-import Footer from '@/components/Footer';
-import Header from '@/components/Header';
+import { API } from "@/constants/Api";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
-import { API } from '../contants';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function ProductDetail() {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -13,7 +13,7 @@ export default function ProductDetail() {
     const [cate, setCate] = useState<string>("")
 
     useEffect(() => {
-        fetch(`${API}/sanpham/${id}`)
+        fetch(`${API}/products/${id}`)
             .then((response) => response.json())
             .then(data => {
                 const productData = Array.isArray(data) ? data[0] : data
@@ -22,17 +22,17 @@ export default function ProductDetail() {
             .catch((err) => console.log(err))
     }, [id])
 
-    useEffect(() => {
-        if(product?.loaisanpham_id) {
-            fetch(`${API}/loaisanpham/${product.loaisanpham_id}`)
-                .then((response) => response.json())
-                .then((data) => {
-                    const cateData = Array.isArray(data) ? data[0] : data
-                    setCate(cateData.ten)
-                })
-                .catch((err) => console.log(err))
-        }
-    },[product])
+    // useEffect(() => {
+    //     if(product?.loaisanpham_id) {
+    //         fetch(`${API}/loaisanpham/${product.loaisanpham_id}`)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 const cateData = Array.isArray(data) ? data[0] : data
+    //                 setCate(cateData.ten)
+    //             })
+    //             .catch((err) => console.log(err))
+    //     }
+    // },[product])
 
     const hadleIncrese = () => {
         setQuantity((prev) => prev + 1)
@@ -45,64 +45,64 @@ export default function ProductDetail() {
     if (!product) return null;
 
     return (
-        <>
-            <Header />
+        <SafeAreaView>
             <ScrollView>
-            <View style={styles.mt80}>
-                <TouchableOpacity>
-                    <Image source={{ uri: product.sanpham_anh }} style={styles.img} />
-                </TouchableOpacity>
-                <View style={styles.pd15}>
-                    <Text style={styles.thumbnail}>Sneaker Daily {">"} Sáo trúc {">"} <Text style={styles.nameP}>{product.sanpham_ten}</Text></Text>
-                    <Text style={styles.title}>{product.sanpham_ten}</Text>
-                    <Text style={styles.price}>
-                        {Number(product.sanpham_gia).toLocaleString("vi-VN", {
-                            style: "currency",
-                            currency: "VND"
-                        })}
-                    </Text>
-                    <View style={styles.fRow}>
-                        <TouchableOpacity style={styles.btn} onPress={handleDecrease}>
-                            <Text style={styles.text}>-</Text>
-                        </TouchableOpacity>
-                        <View style={styles.pdH20}>
-                            <Text style={styles.quantity}>{quantity}</Text>
+                <View style={styles.bgWhite}>
+                    <TouchableOpacity>
+                        <Image source={{ uri: product.sanpham_anh }} style={styles.img} />
+                    </TouchableOpacity>
+                    <View style={styles.pd15}>
+                        <Text style={styles.title}>{product.sanpham_ten}</Text>
+                        <Text style={styles.price}>
+                            {Number(product.sanpham_gia).toLocaleString("vi-VN", {
+                                style: "currency",
+                                currency: "VND"
+                            })}
+                        </Text>
+                        <View style={styles.fRow}>
+                            <TouchableOpacity style={styles.btn} onPress={handleDecrease}>
+                                <Text style={styles.text}>-</Text>
+                            </TouchableOpacity>
+                            <View style={styles.pdH20}>
+                                <Text style={styles.quantity}>{quantity}</Text>
+                            </View>
+                            <TouchableOpacity style={styles.btn} onPress={hadleIncrese}>
+                                <Text style={styles.text}>+</Text>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={styles.btn} onPress={hadleIncrese}>
-                            <Text style={styles.text}>+</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.actions}>
-                        <TouchableOpacity style={[styles.btnAction, styles.buy]}>
-                            <Text style={styles.textAction}>Mua ngay</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.btnAction, styles.addCart]}>
-                            <Text style={styles.textAction}>Thêm vào giỏ</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.infoP}>
-                        <Text>Mã: <Text style={styles.blackColor}>{product.id}</Text></Text>
-                        <Text>Danh mục: <Text style={styles.blackColor}>{cate}</Text></Text>
-                    </View>
-                    <View style={styles.desc}>
-                        <Text style={styles.titleDesc}>Mô tả chi tiết</Text>
-                        <Text style={styles.pDesc}>{product.sanpham_mo_ta}</Text>
+                        <View style={styles.actions}>
+                            <TouchableOpacity style={[styles.btnAction, styles.buy]}>
+                                <Text style={styles.textAction}>Mua ngay</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.btnAction, styles.addCart]}>
+                                <Text style={styles.textAction}>Thêm vào giỏ</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.infoP}>
+                            <Text>Mã: <Text style={styles.blackColor}>{product.id}</Text></Text>
+                            <Text>Danh mục: <Text style={styles.blackColor}>{cate}</Text></Text>
+                        </View>
+                        <View style={styles.desc}>
+                            <Text style={styles.titleDesc}>Mô tả chi tiết</Text>
+                            <Text style={styles.pDesc}>{product.sanpham_mo_ta}</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
-            <Footer />
             </ScrollView>
-        </>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    bgWhite: {
+        backgroundColor: "#fff"
+    },
     mt80: {
         marginTop: 80
     },
     img: {
         width: "100%",
-        height: 500,
+        height: 400,
         resizeMode: 'cover'
     },
     pd15: {
@@ -121,14 +121,14 @@ const styles = StyleSheet.create({
         fontWeight: 500
     },
     title: {
-        fontSize: 25,
+        fontSize: 20,
         marginBottom: 10,
         marginTop: 15,
         fontWeight: 500,
         lineHeight: 25
     },
     price: {
-        fontSize: 17,
+        fontSize: 16,
         color: "#F14D2D",
         fontWeight: 500,
         marginBottom: 15
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: '#fff', 
+        backgroundColor: '#fff',
         borderColor: '#ccc',
         borderStyle: 'solid',
         borderWidth: 1,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     btn: {
         fontSize: 20,
         paddingHorizontal: 40,
-        paddingVertical: 10        
+        paddingVertical: 10
     },
     text: {
         fontSize: 25,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#ccc",
         borderWidth: 1,
         borderStyle: "solid"
-    }, 
+    },
     blackColor: {
         color: "black",
         fontWeight: 500

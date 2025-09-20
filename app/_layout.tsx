@@ -1,8 +1,8 @@
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-// import { Stack } from 'expo-router';
 import { Drawer } from "expo-router/drawer";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
@@ -17,11 +17,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack> */}
+    <GestureHandlerRootView>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Drawer screenOptions={{ headerShown: false }}>
         <Drawer.Screen
           name='index'
@@ -32,17 +29,11 @@ export default function RootLayout() {
           options={{ title: "Giỏ hàng" }}
         />
         <Drawer.Screen
-          name="(tabs)"
-          options={{
-            drawerItemStyle: { display: 'none' }
-          }}
-        />
-        <Drawer.Screen
           name="(auths)/login"
           options={{ drawerItemStyle: { display: 'none' } }}
         />
         <Drawer.Screen
-          name="(auths)/resgiter"
+          name="(auths)/register"
           options={{ drawerItemStyle: { display: 'none' } }}
         />
         <Drawer.Screen
@@ -55,5 +46,6 @@ export default function RootLayout() {
         />
       </Drawer>
     </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
