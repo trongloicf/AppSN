@@ -1,6 +1,6 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function Header() {
@@ -18,15 +18,16 @@ function Header() {
                   style={styles.img}
                   source={{ uri: "https://sneakerdaily.vn/wp-content/uploads/2024/11/logo.jpg" }}/>
               <TouchableOpacity onPress={() => navigation.navigate('cart')}>
-                <FontAwesome5 name="shopping-bag" size={24}/>
+                <FontAwesome6 name="bag-shopping" size={24}/>
               </TouchableOpacity>
             </View>
             <View style={styles.wrapInputSearch}>
                 <TextInput style={styles.inputSearch}
                     placeholder="Tìm kiếm sản phẩm, danh mục..."
+                    placeholderTextColor="#999"
                 ></TextInput>
                 <TouchableOpacity style={styles.btn}>
-                    <Text style={styles.btnText}>Tìm kiếm</Text>
+                    <FontAwesome6 name="magnifying-glass" style={styles.btnText} size={17}></FontAwesome6>
                 </TouchableOpacity>
             </View>
         </View>
@@ -49,7 +50,8 @@ const styles = StyleSheet.create({
   },
   wrapInputSearch: {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    borderRadius: 8
   },
   topBar: {
     display: "flex",
@@ -58,10 +60,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   btn: {
-    width: 120,
+    width: 60,
     backgroundColor: "#333",
     alignItems: "center",
     justifyContent: "center",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10
   },
   btnText: {
     color: "#fff",
@@ -85,7 +89,9 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderStyle: "solid",
     borderWidth: 1,
-    color: "#ccc",
-    fontStyle: "italic"
+    color: "#000",
+    fontStyle: "italic",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10
   }
 });

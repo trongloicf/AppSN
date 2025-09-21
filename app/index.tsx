@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import { API } from "@/constants/Api";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -13,18 +13,44 @@ const ITEM_WIDTH = (width - M * 3) / 2;
 
 export default function HomeScreen() {
   const [products, setProducts] = useState<any[]>([])
+  const [cates, setCates] = useState<any[]>([])
+
   useEffect(() => {
     fetch(`${API}/products`)
       .then((reponse) => reponse.json())
       .then((reponse) => setProducts(reponse))
-      .catch((err) => console.log(err))
+      .catch((er) => console.log(er))
   }, [])
+
+  useEffect(() => {
+    fetch(`${API}/cates`)
+      .then((res) => res.json())
+      .then((data) => setCates([{ id: 0, loaisanpham_ten: "Tất cả" }, ...data]))
+      .catch((er) => console.log(er))
+  }, [])
+
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
       <Header />
       <ScrollView>
         <View style={styles.container}>
           <Banner />
+          <View style={{ paddingBottom: 10 }}>
+              <View style={{marginHorizontal: 10, paddingVertical: 10}}>
+                <Text style={styles.titleApp}>Danh mục</Text>
+              </View>
+              <FlatList
+                data={cates}
+                horizontal
+                keyExtractor={(cate) => cate.id.toString()}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                  <TouchableOpacity style={styles.categoryItem}>
+                    <Text style={styles.categoryText}>{item.loaisanpham_ten}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+          </View>
           <View style={[styles.card]}>
             {products.map((product, index) => (
               <TouchableOpacity key={product.id} style={[styles.col2, { marginLeft: index % 2 === 0 ? M : M / 2, marginRight: index % 2 === 0 ? M / 2 : M}]}
@@ -58,9 +84,27 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  titleApp: {
+    fontWeight: 600,
+    fontSize: 20
+  },
+  categoryItem: {
+    backgroundColor: "#f1f1f1",
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    marginHorizontal: 5,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderStyle: "solid"
+  },
+  categoryText: {
+    fontSize: 16,
+    fontWeight: "500",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9"
+    backgroundColor: "#fafafa"
   },
   card: {
     flexDirection: "row",
@@ -73,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: M/2,
     backgroundColor: "#fff",
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: "#333s",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
