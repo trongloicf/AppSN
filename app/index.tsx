@@ -30,9 +30,9 @@ export default function HomeScreen() {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
+    <SafeAreaView style={{flex: 1, backgroundColor: "#333"}}>
       <Header />
-      <ScrollView>
+      <ScrollView style={styles.bgWhite}>
         <View style={styles.container}>
           <Banner />
           <View style={{ paddingBottom: 10 }}>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     flexWrap: "wrap",
+    paddingBottom: 8
   },
   col2: {
     width: ITEM_WIDTH,

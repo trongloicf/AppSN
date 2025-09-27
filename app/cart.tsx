@@ -1,52 +1,65 @@
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CartScreen() {
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Header />
-      <Text style={styles.text}>Trang giỏ hàng</Text>
-      <View style={styles.item}>
-        <Image
-          source={{ uri: "https://sneakerdaily.vn/wp-content/uploads/2025/08/Ao-adidas-Manchester-United-25_26-Away-Authentic-Jersey-White-JI7424.jpg" }}
-          style={styles.img}
-        />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.name}>Áo adidas Manchester United 2526 Away Authentic Jersey ‘White’ JI7424</Text>
-          <Text style={styles.price}>1.200.000₫</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#333" }}>
+      <Header />
+      <ScrollView style={{ flex: 1, backgroundColor: "#fafafa" }}>
+        <View style={[styles.pdH10, styles.pdV10]}>
+          <View style={[styles.row, styles.alignCenter, styles.bgWhite, styles.pdH10, styles.pdV10, styles.bR10]}>
+            <TouchableOpacity style={[styles.box]}></TouchableOpacity>
+            <Image resizeMode="contain" style={styles.img} source={{ uri: "https://res.cloudinary.com/dihfz2dcu/image/upload/v1757465999/fr69ktcs0hg8oldcduwq.jpg" }}/>           
+            <View style={[styles.flex1]}>
+              <View style={[styles.column]}>
+                <View>
+                  <Text>Áo Adidas Newcastle United 2025/26 ‘Black White’ JI7382</Text>
+                  <></>
+                </View>
+              </View>
+            </View> 
+          </View>
         </View>
-        <TouchableOpacity style={styles.btnRemove}>
-          <Text style={{ color: "#fff" }}>Xóa</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.item}>
-        <Image
-          source={{ uri: "https://sneakerdaily.vn/wp-content/uploads/2025/08/Ao-adidas-Manchester-United-25_26-Away-Authentic-Jersey-White-JI7424.jpg" }}
-          style={styles.img}
-        />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.name}>Áo adidas Manchester United 2526 Away Authentic Jersey ‘White’ JI7424</Text>
-          <Text style={styles.price}>1.150.000₫</Text>
-        </View>
-        <TouchableOpacity style={styles.btnRemove}>
-          <Text style={{ color: "#fff" }}>Xóa</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-      <Footer />
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 10, backgroundColor: "#fff" },
-  item: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
-  img: { width: 60, height: 60, marginRight: 10, borderRadius: 5 },
-  name: { fontSize: 16, fontWeight: "500" },
-  price: { color: "tomato" },
-  btnRemove: { backgroundColor: "red", padding: 6, borderRadius: 5 },
-  text: { color: "red", fontSize: 15, marginBottom: 15, marginTop: 80 }
+  row: {
+    flexDirection: "row"
+  },
+  column: {
+    flexDirection: "column"
+  },
+  bR10: {
+    borderRadius: 10
+  },
+  box: {
+    width: 20,
+    height: 20,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5
+  },
+  alignCenter: {
+    alignItems: "center"
+  },
+  pdH10: {
+    paddingHorizontal: 10
+  },
+  pdV10: {
+    paddingVertical: 10
+  },
+  bgWhite: {
+    backgroundColor: "#fff"
+  }, 
+  img: {
+    width: 80, height: 80, marginLeft: 8, borderRadius: 10, marginRight: 8
+  }, 
+  flex1: {
+    flex: 1
+  }
 });

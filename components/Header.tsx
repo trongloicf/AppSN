@@ -1,12 +1,11 @@
 import { FontAwesome6 } from "@expo/vector-icons";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { Image, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 function Header() {
   const navigation: any = useNavigation()
     return (
-        <SafeAreaView>
+        <>
           <View style={styles.container}>
             <View style={styles.topBar}>
               <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.openDrawer())}>
@@ -31,7 +30,7 @@ function Header() {
                 </TouchableOpacity>
             </View>
         </View>
-        </SafeAreaView>
+        </>
     )
 }
 
@@ -39,7 +38,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
+    position: "relative",
     top: 0,
     left: 0,
     backgroundColor: "#fff",

@@ -18,34 +18,42 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Drawer screenOptions={{ headerShown: false }}>
-        <Drawer.Screen
-          name='index'
-          options={{ title: "Trang chủ", headerShown: false }}
-        />
-        <Drawer.Screen
-          name='cart'
-          options={{ title: "Giỏ hàng" }}
-        />
-        <Drawer.Screen
-          name="(auths)/login"
-          options={{ drawerItemStyle: { display: 'none' } }}
-        />
-        <Drawer.Screen
-          name="(auths)/register"
-          options={{ drawerItemStyle: { display: 'none' } }}
-        />
-        <Drawer.Screen
-          name="+not-found"
-          options={{ drawerItemStyle: { display: 'none' } }}
-        />
-        <Drawer.Screen
-          name="product/[id]"
-          options={{ drawerItemStyle: { display: 'none' } }}
-        />
-      </Drawer>
-    </ThemeProvider>
+      <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
+        <Drawer screenOptions={{ headerShown: false }}>
+          <Drawer.Screen
+            name='index'
+            options={{ title: "Trang chủ", headerShown: false }}
+          />
+          <Drawer.Screen
+            name='cart'
+            options={{ title: "Giỏ hàng" }}
+          />
+          <Drawer.Screen
+            name='user/User'
+            options={{ title: "Tôi" }}
+          />
+          <Drawer.Screen
+            name='user/InfoUser'
+            options={{ title: "Sửa hồ sơ" }}
+          />
+          <Drawer.Screen
+            name="(auths)/login"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(auths)/register"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="+not-found"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="product/[id]"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+        </Drawer>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }
