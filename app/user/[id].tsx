@@ -1,10 +1,27 @@
+import { API } from "@/constants/Api";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function UpdateInfoUser() {
+    const { id } = useLocalSearchParams<{ id: string }>()
+    const[infoUser, setInfoUser] = useState<{
+        name: string;
+        email: string;
+        khachhang_ten: string;
+        khachhang_sdt: string;
+        khachhang_dia_chi: string;
+    } | null>(null)
+
+    useEffect(() => {
+        fetch(`${API}/users/${id}`)
+            .then((res) => res.json())
+            .then((data) => setInfoUser(data))
+            .catch((er) => console.log(er))
+    }, [id])
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#333" }}>
             <ScrollView style={{ flex: 1, backgroundColor: "#fafafa" }}>
@@ -22,7 +39,7 @@ export default function UpdateInfoUser() {
                         <Text style={[styles.fS16]}>Tên</Text>
                         <View style={[styles.row, styles.gap5, styles.alignCenter]}>
                             <Text style={[styles.fS16]}>
-                                Cao Xuân Dương
+                                {infoUser?.khachhang_ten || infoUser?.name || "Chưa có"}
                             </Text>
                             <FontAwesome6 style={{ color: "#ccc" }} name="chevron-right" />
                         </View>
@@ -31,7 +48,7 @@ export default function UpdateInfoUser() {
                         <Text style={[styles.fS16]}>Email</Text>
                         <View style={[styles.row, styles.gap5, styles.alignCenter]}>
                             <Text style={[styles.fS16]}>
-                                duong2811@gmail.com
+                                {infoUser?.email || "Chưa có"}
                             </Text>
                             <FontAwesome6 style={{ color: "#ccc" }} name="chevron-right" />
                         </View>
@@ -40,7 +57,7 @@ export default function UpdateInfoUser() {
                         <Text style={[styles.fS16]}>Điện thoại</Text>
                         <View style={[styles.row, styles.gap5, styles.alignCenter]}>
                             <Text style={[styles.fS16]}>
-                                0337337848
+                                {infoUser?.khachhang_sdt || "Chưa có"}
                             </Text>
                             <FontAwesome6 style={{ color: "#ccc" }} name="chevron-right" />
                         </View>
@@ -49,7 +66,7 @@ export default function UpdateInfoUser() {
                         <Text style={[styles.fS16]}>Địa chỉ</Text>
                         <View style={[styles.row, styles.gap5, styles.alignCenter]}>
                             <Text style={[styles.fS16, styles.flexWrap]}>
-                                Xóm 2, Thôn Bắc Châu, Xã Khoái Châu, Tỉnh Hưng Yên
+                                {infoUser?.khachhang_dia_chi || "Chưa có"}
                             </Text>
                             <FontAwesome6 style={{ color: "#ccc" }} name="chevron-right" />
                         </View>

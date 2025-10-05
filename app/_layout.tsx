@@ -10,7 +10,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
-
+  
   if (!loaded) {
     // Async font loading only occurs in development.
     return null;
@@ -30,11 +30,11 @@ export default function RootLayout() {
           />
           <Drawer.Screen
             name='user/User'
-            options={{ title: "Tôi" }}
+            options={{ title: "Tài khoản" }}
           />
           <Drawer.Screen
-            name='user/InfoUser'
-            options={{ title: "Sửa hồ sơ" }}
+            name='user/[id]'
+            options={{ title: "Sửa hồ sơ", drawerItemStyle: { display: 'none' } }}
           />
           <Drawer.Screen
             name="(auths)/login"
@@ -57,3 +57,61 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
+// import { useColorScheme } from '@/hooks/useColorScheme';
+// import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+// import { useFonts } from 'expo-font';
+// import { Tabs } from "expo-router";
+// import { GestureHandlerRootView } from 'react-native-gesture-handler';
+// import 'react-native-reanimated';
+
+// export default function RootLayout() {
+//   const colorScheme = useColorScheme();
+//   const [loaded] = useFonts({
+//     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+//   });
+
+//   if (!loaded) {
+//     return null;
+//   }
+
+//   return (
+//     <GestureHandlerRootView style={{ flex: 1 }}>
+//       <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
+//         <Tabs screenOptions={{ headerShown: false }}>
+//           <Tabs.Screen
+//             name="index"
+//             options={{ title: "Trang chủ" }}
+//           />
+//           <Tabs.Screen
+//             name="cart"
+//             options={{ title: "Giỏ hàng" }}
+//           />
+//           <Tabs.Screen
+//             name="user/User"
+//             options={{ title: "Tôi" }}
+//           />
+//           <Tabs.Screen
+//             name="user/InfoUser"
+//             options={{ title: "Sửa hồ sơ", tabBarButton: () => null }}
+//           />
+//           <Tabs.Screen
+//             name="(auths)/login"
+//             options={{ tabBarButton: () => null }}
+//           />
+//           <Tabs.Screen
+//             name="(auths)/register"
+//             options={{ tabBarButton: () => null }}
+//           />
+//           <Tabs.Screen
+//             name="+not-found"
+//             options={{ tabBarButton: () => null }}
+//           />
+//           <Tabs.Screen
+//             name="product/[id]"
+//             options={{ tabBarButton: () => null }}
+//           />
+//         </Tabs>
+//       </ThemeProvider>
+//     </GestureHandlerRootView>
+//   );
+// }

@@ -1,4 +1,5 @@
 import { API } from "@/constants/Api";
+import { addToCart } from "@/storages/cartStorage";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -6,7 +7,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Image, LayoutAnimation, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 export default function ProductDetail() {
     interface Size {
@@ -58,6 +58,7 @@ export default function ProductDetail() {
     const [selectedSize, setSelectedSize] = useState<number | null>(null)
     const [currentImage, setCurrentImage] = useState<string | null>(null)
 
+
     const toggleDesc = () => {
         LayoutAnimation.easeInEaseOut();
         setShowDesc(!showDesc);
@@ -96,10 +97,10 @@ export default function ProductDetail() {
     }, [])
 
     const hadleIncrese = () => {
-        const quantitySizeColors = product?.sizesColors.find((quantitySizeColor) => 
+        const quantitySizeColors = product?.sizesColors.find((quantitySizeColor) =>
             (quantitySizeColor.color_id === selectedColor && quantitySizeColor.size_id === selectedSize)
         )
-        if(quantitySizeColors && quantity < quantitySizeColors.so_luong) {
+        if (quantitySizeColors && quantity < quantitySizeColors.so_luong) {
             setQuantity((prev) => prev + 1)
         }
         // if (selectedSize && quantity < selectedSize.so_luong) {
@@ -110,6 +111,32 @@ export default function ProductDetail() {
     const handleDecrease = () => {
         setQuantity((prev) => prev > 1 ? prev - 1 : 1)
     }
+
+    const handleAddToCart = async () => {
+        if (!selectedColor || !selectedSize) {
+            alert("Vui lòng chọn màu sắc và size!");
+            return;
+        }
+
+        const colorObj = product?.imagesColor.find(c => c.color_id === selectedColor);
+        const sizeObj = product?.sizesColors.find(s => s.size_id === selectedSize && s.color_id === selectedColor);
+
+        const productItemCart = {
+            id: product?.id,
+            name: product?.sanpham_ten,
+            image: currentImage || product?.sanpham_anh,
+            priceOrigin: product?.gia_goc,
+            price: product?.gia_giam ? product.gia_giam : product?.gia_goc,
+            quantity: quantity,
+            color_id: selectedColor,
+            color_ten: colorObj?.color_ten,
+            size_id: selectedSize,
+            size_ten: sizeObj?.size_ten,
+        };
+
+        await addToCart(productItemCart);
+        alert("Đã thêm vào giỏ!");
+    };
 
     if (!product) return null;
 
@@ -165,25 +192,22 @@ export default function ProductDetail() {
                             <View style={[styles.fRow, styles.gap10]}>
                                 {product.imagesColor.map((imageColor) => {
                                     return (
-                                        <>
-                                            <TouchableOpacity
-                                                key={imageColor.id}
-                                                onPress={() => {
-                                                    setSelectedColor(imageColor.color_id);
-                                                    setSelectedSize(null);
-                                                    setCurrentImage(imageColor.image_url);
-                                                }}
-                                                style={{
-                                                    width: 30,
-                                                    height: 30,
-                                                    borderRadius: 50,
-                                                    backgroundColor: imageColor.color_ma,
-                                                    borderWidth: selectedColor === imageColor.color_id ? 2 : 1,
-                                                    borderColor: selectedColor === imageColor.color_id ? "#F14D2D" : "#ccc"
-                                                }}
-                                            />
-
-                                        </>
+                                        <TouchableOpacity
+                                            key={imageColor.id}
+                                            onPress={() => {
+                                                setSelectedColor(imageColor.color_id);
+                                                setSelectedSize(null);
+                                                setCurrentImage(imageColor.image_url);
+                                            }}
+                                            style={{
+                                                width: 30,
+                                                height: 30,
+                                                borderRadius: 50,
+                                                backgroundColor: imageColor.color_ma,
+                                                borderWidth: selectedColor === imageColor.color_id ? 2 : 1,
+                                                borderColor: selectedColor === imageColor.color_id ? "#F14D2D" : "#ccc"
+                                            }}
+                                        />
                                     )
                                 })}
                             </View>
@@ -234,7 +258,7 @@ export default function ProductDetail() {
                                     <Text style={styles.text}>+</Text>
                                 </TouchableOpacity>
                             </View>
-                            <TouchableOpacity style={[styles.btnAction, styles.addCart, styles.bdR30]}>
+                            <TouchableOpacity style={[styles.btnAction, styles.addCart, styles.bdR30]} onPress={handleAddToCart}>
                                 {/* <Text style={styles.textAction}>Thêm vào giỏ</Text> */}
                                 <FontAwesome6 name="cart-plus" style={styles.textAction} />
                             </TouchableOpacity>
